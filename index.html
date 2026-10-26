@@ -2,12 +2,331 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Cricket Short V4</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+margin:0;
+background:#071426;
+color:white;
+font-family:Arial,sans-serif;
+}
+
+header{
+background:#102d50;
+padding:20px 12px;
+text-align:center;
+border-bottom:2px solid #1685ff;
+}
+
+header h1{margin:0;font-size:26px}
+header p{color:#b8cce5;font-size:12px}
+
+nav{
+display:flex;
+overflow-x:auto;
+background:#102039;
+padding:10px 5px;
+gap:7px;
+}
+
+nav button{
+background:#203c60;
+color:white;
+border:0;
+padding:11px 15px;
+border-radius:8px;
+white-space:nowrap;
+}
+
+nav button.active{
+background:#087cff;
+}
+
+.container{
+padding:14px;
+max-width:800px;
+margin:auto;
+}
+
+.card{
+background:#122a46;
+padding:17px;
+border-radius:13px;
+margin-bottom:14px;
+border:1px solid #244668;
+}
+
+h2{font-size:19px;margin-top:0}
+
+.live{
+color:#ff5151;
+font-weight:bold;
+}
+
+.teams{
+display:flex;
+justify-content:space-around;
+align-items:center;
+text-align:center;
+font-size:19px;
+font-weight:bold;
+}
+
+.score{
+font-size:28px;
+color:#35c5ff;
+margin:12px 0;
+}
+
+button{
+cursor:pointer;
+}
+
+.action{
+background:#087cff;
+color:white;
+border:0;
+padding:12px 16px;
+border-radius:8px;
+margin:4px;
+}
+
+input,select{
+width:100%;
+padding:12px;
+margin:7px 0;
+border:1px solid #345575;
+border-radius:8px;
+background:#071a30;
+color:white;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+font-size:13px;
+}
+
+td,th{
+padding:10px 5px;
+border-bottom:1px solid #34506d;
+text-align:left;
+}
+
+.section{display:none}
+.section.active{display:block}
+
+footer{
+text-align:center;
+padding:20px;
+color:#8da8c5;
+font-size:12px;
+}
+</style>
 </head>
-<body style="background:#071629;color:white;text-align:center;padding:40px">
+
+<body>
+
+<header>
 <h1>🏏 Cricket Short V4</h1>
-<h2>Welcome to Cricket Short</h2>
-<p>Live Cricket Score • Fixtures • Scorecard</p>
+<p>Live Score • Fixtures • Scorecard • Ball-by-Ball</p>
+</header>
+
+<nav>
+<button class="active" onclick="show('live',this)">🔴 Live</button>
+<button onclick="show('fixtures',this)">📅 Fixtures</button>
+<button onclick="show('scorecard',this)">📊 Scorecard</button>
+<button onclick="show('balls',this)">⚾ Ball-by-Ball</button>
+<button onclick="show('points',this)">🏆 Points</button>
+<button onclick="show('manual',this)">✍️ Manual Score</button>
+<button onclick="show('overlay',this)">🎥 Overlay</button>
+<button onclick="show('news',this)">📰 News</button>
+</nav>
+
+<div class="container">
+
+<!-- LIVE -->
+
+<div id="live" class="section active">
+
+<div class="card">
+<h2>🔴 Live Cricket Score</h2>
+<p class="live">● DEMO SCORE - LIVE API NOT CONNECTED</p>
+
+<div class="teams">
+<div>🇮🇳<br>INDIA</div>
+<div>VS</div>
+<div>🇼🇮<br>WI</div>
+</div>
+
+<center>
+<div class="score" id="liveScore">125/3</div>
+<p id="overs">15.2 Overs</p>
+<p>Demo scoreboard – वास्तविक मैच स्कोर नहीं</p>
+</center>
+</div>
+
+<div class="card">
+<h2>Match Information</h2>
+<p>Match: India vs West Indies</p>
+<p>Format: T20</p>
+<p>Status: Demo</p>
+</div>
+
+</div>
+
+<!-- FIXTURES -->
+
+<div id="fixtures" class="section">
+<div class="card">
+<h2>📅 Upcoming Fixtures</h2>
+<p>अभी Cricket Fixtures API कनेक्ट नहीं है।</p>
+<p>API कनेक्शन के बाद वास्तविक आगामी मैच दिखाई देंगे।</p>
+</div>
+</div>
+
+<!-- SCORECARD -->
+
+<div id="scorecard" class="section">
+<div class="card">
+<h2>📊 Batting Scorecard</h2>
+
+<table>
+<tr><th>Batter</th><th>R</th><th>B</th><th>4s</th><th>6s</th></tr>
+<tr><td>Demo Player 1</td><td>55</td><td>32</td><td>5</td><td>2</td></tr>
+<tr><td>Demo Player 2</td><td>35</td><td>24</td><td>3</td><td>1</td></tr>
+</table>
+
+<p>यह केवल डेमो डेटा है।</p>
+</div>
+</div>
+
+<!-- BALL BY BALL -->
+
+<div id="balls" class="section">
+<div class="card">
+<h2>⚾ Ball-by-Ball Commentary</h2>
+<p>15.1 - 1 Run</p>
+<p>15.2 - Four Runs</p>
+<p>15.3 - Dot Ball</p>
+<p>15.4 - Single Run</p>
+<p>15.5 - Wicket</p>
+<p>डेमो कमेंट्री</p>
+</div>
+</div>
+
+<!-- POINTS -->
+
+<div id="points" class="section">
+<div class="card">
+<h2>🏆 Points Table</h2>
+<table>
+<tr><th>Team</th><th>Played</th><th>Points</th></tr>
+<tr><td>India</td><td>0</td><td>0</td></tr>
+<tr><td>West Indies</td><td>0</td><td>0</td></tr>
+</table>
+<p>डेमो पॉइंट्स टेबल</p>
+</div>
+</div>
+
+<!-- MANUAL -->
+
+<div id="manual" class="section">
+<div class="card">
+<h2>✍️ Manual Score Update</h2>
+
+<label>Runs</label>
+<select id="runs">
+<option value="0">0 Run</option>
+<option value="1">1 Run</option>
+<option value="2">2 Runs</option>
+<option value="3">3 Runs</option>
+<option value="4">4 Runs</option>
+<option value="6">6 Runs</option>
+</select>
+
+<label>Wicket</label>
+<select id="wicket">
+<option value="no">No Wicket</option>
+<option value="yes">Wicket</option>
+</select>
+
+<button class="action" onclick="updateScore()">Update Score</button>
+
+<p id="message">Demo Score: 125/3</p>
+</div>
+</div>
+
+<!-- OVERLAY -->
+
+<div id="overlay" class="section">
+<div class="card">
+<h2>🎥 Facebook Live Overlay</h2>
+<p>Score Overlay Preview</p>
+<div style="background:#000;padding:18px;text-align:center">
+🇮🇳 INDIA &nbsp; <span id="overlayScore">125/3</span> &nbsp; 🇼🇮 WI
+</div>
+<p>यह अभी ऐप के अंदर डेमो प्रीव्यू है। Facebook Live में जोड़ने के लिए अगला चरण आवश्यक होगा।</p>
+</div>
+</div>
+
+<!-- NEWS -->
+
+<div id="news" class="section">
+<div class="card">
+<h2>📰 Cricket News</h2>
+<p>क्रिकेट न्यूज API अभी कनेक्ट नहीं है।</p>
+</div>
+</div>
+
+</div>
+
+<footer>
+🏏 Cricket Short V4 | Demo Dashboard
+</footer>
+
+<script>
+
+let totalRuns=125;
+let totalWickets=3;
+
+function show(id,btn){
+document.querySelectorAll('.section')
+.forEach(s=>s.classList.remove('active'));
+
+document.getElementById(id).classList.add('active');
+
+document.querySelectorAll('nav button')
+.forEach(b=>b.classList.remove('active'));
+
+btn.classList.add('active');
+}
+
+function updateScore(){
+
+let runs=Number(document.getElementById('runs').value);
+let wicket=document.getElementById('wicket').value;
+
+totalRuns+=runs;
+
+if(wicket==="yes" && totalWickets<10){
+totalWickets++;
+}
+
+let score=totalRuns+"/"+totalWickets;
+
+document.getElementById('liveScore').innerText=score;
+document.getElementById('overlayScore').innerText=score;
+
+document.getElementById('message').innerText=
+"Updated Demo Score: "+score;
+}
+
+</script>
+
 </body>
-</html>
+  </html>
