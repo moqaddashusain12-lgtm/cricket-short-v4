@@ -6,416 +6,635 @@
 <title>Cricket Short V4</title>
 
 <style>
-* {
-  box-sizing: border-box;
+*{box-sizing:border-box}
+
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#071426;
+color:white;
 }
 
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #071426;
-  color: white;
+header{
+background:#10294b;
+padding:20px 12px;
+text-align:center;
+border-bottom:2px solid #1e90ff;
 }
 
-header {
-  background: #10294b;
-  padding: 20px 12px;
-  text-align: center;
-  border-bottom: 2px solid #1e90ff;
+header h1{margin:0 0 8px;font-size:25px}
+header p{margin:0;color:#c5d8ef;font-size:13px}
+
+nav{
+display:flex;
+overflow-x:auto;
+background:#0b1d35;
+padding:10px;
+gap:8px;
 }
 
-header h1 {
-  margin: 0 0 8px;
-  font-size: 25px;
+nav button{
+flex-shrink:0;
+padding:11px 15px;
+border:0;
+border-radius:8px;
+background:#203956;
+color:white;
+font-weight:bold;
 }
 
-header p {
-  margin: 0;
-  color: #c5d8ef;
-  font-size: 13px;
+nav button.active{background:#087cff}
+
+main{
+padding:15px;
+max-width:850px;
+margin:auto;
 }
 
-nav {
-  display: flex;
-  overflow-x: auto;
-  background: #0b1d35;
-  padding: 10px;
-  gap: 8px;
+.card{
+background:#102642;
+padding:18px;
+border-radius:13px;
+margin-bottom:15px;
+border:1px solid #25466a;
 }
 
-nav button {
-  flex-shrink: 0;
-  padding: 11px 15px;
-  border: 0;
-  border-radius: 8px;
-  background: #203956;
-  color: white;
-  font-weight: bold;
+h2{margin-top:0;font-size:20px}
+
+.match{
+background:#0a1b30;
+border-radius:12px;
+padding:17px;
+margin-top:14px;
+border:1px solid #315276;
 }
 
-nav button.active {
-  background: #087cff;
+.teams{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:8px;
+text-align:center;
 }
 
-main {
-  padding: 15px;
-  max-width: 850px;
-  margin: auto;
+.team{
+flex:1;
+font-size:17px;
+font-weight:bold;
+overflow-wrap:anywhere;
 }
 
-.card {
-  background: #102642;
-  padding: 18px;
-  border-radius: 13px;
-  margin-bottom: 15px;
-  border: 1px solid #25466a;
+.vs{color:#ffcc45;font-weight:bold}
+
+.score{
+text-align:center;
+font-size:22px;
+font-weight:bold;
+color:#49c4ff;
+margin:17px 0 5px;
 }
 
-h2 {
-  margin-top: 0;
-  font-size: 20px;
+.status{
+text-align:center;
+color:#b8cce4;
+font-size:13px;
+margin-top:7px;
 }
 
-.match {
-  background: #0a1b30;
-  border-radius: 12px;
-  padding: 17px;
-  margin-top: 14px;
-  border: 1px solid #315276;
+.live{color:#ff5656;font-weight:bold}
+
+.empty{
+text-align:center;
+padding:25px 12px;
+color:#c5d8ef;
+line-height:1.8;
 }
 
-.teams {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  text-align: center;
+.hidden{display:none}
+
+.info{
+color:#a9c4e5;
+font-size:13px;
+text-align:center;
 }
 
-.team {
-  flex: 1;
-  font-size: 17px;
-  font-weight: bold;
-  overflow-wrap: anywhere;
+.refresh,.action{
+background:#087cff;
+color:white;
+border:0;
+padding:12px 18px;
+border-radius:8px;
+font-weight:bold;
+margin-top:12px;
+cursor:pointer;
 }
 
-.vs {
-  color: #ffcc45;
-  font-weight: bold;
+input,select{
+width:100%;
+padding:12px;
+margin:7px 0;
+border-radius:7px;
+border:1px solid #315276;
+background:#071426;
+color:white;
 }
 
-.score {
-  text-align: center;
-  font-size: 30px;
-  font-weight: bold;
-  color: #49c4ff;
-  margin: 17px 0 5px;
+footer{
+text-align:center;
+padding:20px;
+color:#829ab7;
+font-size:12px;
 }
 
-.status {
-  text-align: center;
-  color: #b8cce4;
-  font-size: 13px;
+.badge{
+display:inline-block;
+background:#173c5e;
+padding:5px 10px;
+border-radius:20px;
+font-size:12px;
 }
 
-.live {
-  color: #ff5656;
-  font-weight: bold;
-}
-
-.empty {
-  text-align: center;
-  padding: 30px 15px;
-  color: #c5d8ef;
-  line-height: 1.8;
-}
-
-.hidden {
-  display: none;
-}
-
-.info {
-  color: #a9c4e5;
-  font-size: 13px;
-  text-align: center;
-}
-
-.refresh {
-  background: #087cff;
-  color: white;
-  border: 0;
-  padding: 12px 18px;
-  border-radius: 8px;
-  font-weight: bold;
-  margin-top: 12px;
-}
-
-footer {
-  text-align: center;
-  padding: 20px;
-  color: #829ab7;
-  font-size: 12px;
-}
 </style>
 </head>
 
 <body>
 
 <header>
-  <h1>🏏 Cricket Short V4</h1>
-  <p>Live Score • Fixtures • Scorecard • Ball-by-Ball</p>
+<h1>🏏 Cricket Short V4</h1>
+<p>Live Score • Fixtures • Scorecard • Ball-by-Ball</p>
 </header>
 
 <nav>
-  <button class="active" onclick="showTab('live',this)">🔴 Live</button>
-  <button onclick="showTab('fixtures',this)">📅 Fixtures</button>
-  <button onclick="showTab('scorecard',this)">📊 Scorecard</button>
-  <button onclick="showTab('ball',this)">⚾ Ball-by-Ball</button>
-  <button onclick="showTab('points',this)">🏆 Points</button>
-  <button onclick="showTab('manual',this)">✍️ Manual Score</button>
-  <button onclick="showTab('overlay',this)">🎥 Overlay</button>
-  <button onclick="showTab('news',this)">📰 News</button>
+<button class="active" onclick="showTab('live',this)">🔴 Live</button>
+<button onclick="showTab('fixtures',this)">📅 Fixtures</button>
+<button onclick="showTab('scorecard',this)">📊 Scorecard</button>
+<button onclick="showTab('ball',this)">⚾ Ball-by-Ball</button>
+<button onclick="showTab('points',this)">🏆 Points</button>
+<button onclick="showTab('manual',this)">✍️ Manual Score</button>
+<button onclick="showTab('overlay',this)">🎥 Overlay</button>
+<button onclick="showTab('news',this)">📰 News</button>
 </nav>
 
 <main>
 
+<!-- LIVE -->
+
 <section id="live" class="tab">
 
-  <div class="card">
-    <h2>🔴 Live Cricket Score</h2>
-    <p class="info">
-      <span class="live">● LIVE API CONNECTED</span>
-    </p>
+<div class="card">
 
-    <div id="liveMatches">
-      <div class="empty">मैचों की जानकारी लोड हो रही है...</div>
-    </div>
+<h2>🔴 Live Cricket Score</h2>
 
-    <div class="info" id="lastUpdated">
-      स्कोर अपडेट हो रहा है...
-    </div>
+<p class="info">
+<span class="live">● SPORTMONKS API CONNECTED</span>
+</p>
 
-    <center>
-      <button class="refresh" onclick="loadLiveScores()">
-        🔄 Refresh Score
-      </button>
-    </center>
-  </div>
+<div id="liveMatches">
+<div class="empty">🏏 मैच लोड हो रहे हैं...</div>
+</div>
 
+<div class="info" id="lastUpdated">
+स्कोर अपडेट हो रहा है...
+</div>
+
+<center>
+<button class="refresh" onclick="loadLiveScores()">
+🔄 Refresh Score
+</button>
+</center>
+
+</div>
 </section>
+
+<!-- FIXTURES -->
 
 <section id="fixtures" class="tab hidden">
-  <div class="card">
-    <h2>📅 Upcoming Fixtures</h2>
-    <p>Upcoming Fixtures का API कनेक्शन अभी जोड़ना बाकी है।</p>
-  </div>
+<div class="card">
+<h2>📅 Upcoming Fixtures</h2>
+<div id="fixtureMatches">
+<div class="empty">Fixtures लोड हो रहे हैं...</div>
+</div>
+</div>
 </section>
+
+<!-- SCORECARD -->
 
 <section id="scorecard" class="tab hidden">
-  <div class="card">
-    <h2>📊 Full Scorecard</h2>
-    <p>Scorecard API कनेक्शन अभी जोड़ना बाकी है।</p>
-  </div>
+<div class="card">
+<h2>📊 Full Scorecard</h2>
+<div id="scorecardData" class="empty">
+Scorecard के लिए मैच चुनें।
+</div>
+</div>
 </section>
+
+<!-- BALL -->
 
 <section id="ball" class="tab hidden">
-  <div class="card">
-    <h2>⚾ Ball-by-Ball</h2>
-    <p>Ball-by-Ball API कनेक्शन अभी जोड़ना बाकी है।</p>
-  </div>
+<div class="card">
+<h2>⚾ Ball-by-Ball</h2>
+<div id="ballData" class="empty">
+Ball-by-Ball डेटा अभी उपलब्ध नहीं है।
+</div>
+</div>
 </section>
+
+<!-- POINTS -->
 
 <section id="points" class="tab hidden">
-  <div class="card">
-    <h2>🏆 Points Table</h2>
-    <p>Points Table API कनेक्शन अभी जोड़ना बाकी है।</p>
-  </div>
+<div class="card">
+<h2>🏆 Points Table</h2>
+<div class="empty">
+Points Table के लिए League API कनेक्शन आवश्यक है।
+</div>
+</div>
 </section>
+
+<!-- MANUAL -->
 
 <section id="manual" class="tab hidden">
-  <div class="card">
-    <h2>✍️ Manual Score</h2>
-    <p>Manual Score मॉड्यूल अगले चरण में जोड़ा जाएगा।</p>
-  </div>
+<div class="card">
+
+<h2>✍️ Manual Score</h2>
+
+<input id="team1" placeholder="Team 1">
+<input id="team2" placeholder="Team 2">
+
+<input id="runs1" type="number" placeholder="Team 1 Runs">
+<input id="wickets1" type="number" placeholder="Team 1 Wickets">
+
+<input id="runs2" type="number" placeholder="Team 2 Runs">
+<input id="wickets2" type="number" placeholder="Team 2 Wickets">
+
+<button class="action" onclick="saveManualScore()">
+Save Score
+</button>
+
+<div id="manualResult" class="empty"></div>
+
+</div>
 </section>
+
+<!-- OVERLAY -->
 
 <section id="overlay" class="tab hidden">
-  <div class="card">
-    <h2>🎥 Facebook Live Overlay</h2>
-    <p>Facebook Live Overlay अगले चरण में जोड़ा जाएगा।</p>
-  </div>
+<div class="card">
+<h2>🎥 Facebook Live Overlay</h2>
+
+<p class="info">अपना लाइव स्कोर Overlay यहाँ देखें।</p>
+
+<div id="overlayScore" class="match">
+<div class="empty">पहले मैच का चयन करें।</div>
+</div>
+
+<button class="action" onclick="showTab('live',document.querySelector('nav button'))">
+Live Score देखें
+</button>
+
+</div>
 </section>
 
+<!-- NEWS -->
+
 <section id="news" class="tab hidden">
-  <div class="card">
-    <h2>📰 Cricket News</h2>
-    <p>Cricket News मॉड्यूल अगले चरण में जोड़ा जाएगा।</p>
-  </div>
+<div class="card">
+<h2>📰 Cricket News</h2>
+<div class="empty">
+Cricket News API कनेक्शन अगले चरण में जोड़ा जाएगा।
+</div>
+</div>
 </section>
 
 </main>
 
 <footer>
-  Cricket Short V4 • Powered by Sportmonks Cricket API
+Cricket Short V4 • Powered by Sportmonks Cricket API
 </footer>
 
 <script>
 
-function showTab(id, button) {
-  document.querySelectorAll(".tab").forEach(section => {
-    section.classList.add("hidden");
-  });
+// ===================================
+// CRICKET SHORT V4 FINAL JAVASCRIPT
+// ===================================
 
-  document.getElementById(id).classList.remove("hidden");
+let allMatches=[];
 
-  document.querySelectorAll("nav button").forEach(btn => {
-    btn.classList.remove("active");
-  });
+function showTab(id,button){
 
-  button.classList.add("active");
+document.querySelectorAll(".tab").forEach(s=>{
+s.classList.add("hidden");
+});
+
+document.getElementById(id).classList.remove("hidden");
+
+document.querySelectorAll("nav button").forEach(b=>{
+b.classList.remove("active");
+});
+
+if(button) button.classList.add("active");
+
 }
 
-function getTeamName(team) {
-  if (!team) return "Team";
-
-  return team.name || team.code || "Team";
+function getTeamName(team){
+return team?.name || team?.code || "Team";
 }
 
-function getTeamScore(match, teamId) {
-  const runs = Array.isArray(match.runs) ? match.runs : [];
+function getScore(match,teamId){
 
-  const innings = runs.filter(item =>
-    String(item.team_id) === String(teamId)
-  );
+const runs=Array.isArray(match.runs)?match.runs:[];
 
-  if (innings.length) {
-    return innings.map(item =>
-      `${item.score ?? 0}/${item.wickets ?? 0} (${item.overs ?? 0} Ov)`
-    ).join("  •  ");
-  }
+const innings=runs.filter(x=>
+String(x.team_id)===String(teamId)
+);
 
-  return "स्कोर उपलब्ध नहीं";
+if(!innings.length) return "स्कोर उपलब्ध नहीं";
+
+return innings.map(x=>
+`${x.score??0}/${x.wickets??0} (${x.overs??0} Ov)`
+).join(" • ");
+
 }
 
-function createMatchCard(match) {
-  const localName = getTeamName(match.localteam);
-  const visitorName = getTeamName(match.visitorteam);
+function createMatchCard(match){
 
-  const localScore = getTeamScore(
-    match,
-    match.localteam_id
-  );
+const card=document.createElement("div");
+card.className="match";
 
-  const visitorScore = getTeamScore(
-    match,
-    match.visitorteam_id
-  );
+const teams=document.createElement("div");
+teams.className="teams";
 
-  const status = match.note || match.status || "Live Match";
+const a=document.createElement("div");
+a.className="team";
+a.textContent="🏏 "+getTeamName(match.localteam);
 
-  const card = document.createElement("div");
-  card.className = "match";
+const vs=document.createElement("div");
+vs.className="vs";
+vs.textContent="VS";
 
-  const teams = document.createElement("div");
-  teams.className = "teams";
+const b=document.createElement("div");
+b.className="team";
+b.textContent="🏏 "+getTeamName(match.visitorteam);
 
-  const home = document.createElement("div");
-  home.className = "team";
-  home.textContent = "🏏 " + localName;
+teams.append(a,vs,b);
 
-  const vs = document.createElement("div");
-  vs.className = "vs";
-  vs.textContent = "VS";
+const score=document.createElement("div");
+score.className="score";
+score.textContent=
+getScore(match,match.localteam_id)+" | "+
+getScore(match,match.visitorteam_id);
 
-  const away = document.createElement("div");
-  away.className = "team";
-  away.textContent = "🏏 " + visitorName;
+const status=document.createElement("div");
+status.className="status";
 
-  teams.append(home, vs, away);
+status.textContent=
+match.status==="NS"?"📅 NOT STARTED":
+"🔴 "+(match.note||match.status||"Match");
 
-  const score = document.createElement("div");
-  score.className = "score";
-  score.style.fontSize = "18px";
-  score.textContent = localScore + "  |  " + visitorScore;
+const type=document.createElement("div");
+type.className="status";
+type.textContent=
+(match.type||"Cricket")+" • "+(match.round||"");
 
-  const state = document.createElement("div");
-  state.className = "status";
-  state.textContent = "🔴 " + status;
+const venue=document.createElement("div");
+venue.className="status";
+venue.textContent=
+"📍 "+(match.venue?.name||"Venue unavailable");
 
-  const format = document.createElement("div");
-  format.className = "status";
-  format.style.marginTop = "8px";
-  format.textContent = match.type || "Cricket Match";
+const time=document.createElement("div");
+time.className="status";
 
-  card.append(teams, score, state, format);
-
-  return card;
+if(match.starting_at){
+time.textContent="🕒 "+new Date(match.starting_at)
+.toLocaleString("en-IN",{
+timeZone:"Asia/Kolkata",
+dateStyle:"medium",
+timeStyle:"short"
+});
 }
 
-async function loadLiveScores() {
-  const box = document.getElementById("liveMatches");
-  const updated = document.getElementById("lastUpdated");
+const details=document.createElement("button");
+details.className="action";
+details.textContent="📊 Match Details";
 
-  box.innerHTML =
-    '<div class="empty">स्कोर अपडेट हो रहा है...</div>';
+details.onclick=()=>{
+showMatchDetails(match);
+};
 
-  try {
-    const response = await fetch("/api/live-score", {
-      cache: "no-store"
-    });
+card.append(teams,score,status,type,venue,time,details);
 
-    const result = await response.json();
+return card;
 
-    if (!response.ok || result.errors || result.success === false) {
-      throw new Error(
-        result.message || "API से स्कोर नहीं मिला"
-      );
-    }
-
-    const matches = Array.isArray(result.data)
-      ? result.data
-      : result.data
-        ? [result.data]
-        : [];
-
-    box.innerHTML = "";
-
-    if (matches.length === 0) {
-      box.innerHTML = `
-        <div class="empty">
-          <h2>🏏 अभी कोई Live Match नहीं है</h2>
-          <p>जैसे ही Sportmonks के उपलब्ध डेटा में Live Match आएगा,
-          वह यहाँ दिखाई देगा।</p>
-          <p>अगला अपडेट अपने आप होगा।</p>
-        </div>
-      `;
-    } else {
-      matches.forEach(match => {
-        box.appendChild(createMatchCard(match));
-      });
-    }
-
-    updated.textContent =
-      "Last Updated: " + new Date().toLocaleTimeString("hi-IN");
-
-  } catch (error) {
-    box.innerHTML = `
-      <div class="empty">
-        <h3>⚠️ Live Score प्राप्त नहीं हुआ</h3>
-        <p>${error.message}</p>
-        <p>कृपया थोड़ी देर बाद दोबारा कोशिश करें।</p>
-      </div>
-    `;
-
-    updated.textContent = "अपडेट असफल";
-  }
 }
 
-// पहली बार तुरंत स्कोर लोड करें
+// MATCH DETAILS
+
+function showMatchDetails(match){
+
+showTab("scorecard",
+document.querySelectorAll("nav button")[2]);
+
+const box=document.getElementById("scorecardData");
+
+box.innerHTML="";
+
+const title=document.createElement("h3");
+title.textContent=
+getTeamName(match.localteam)+" VS "+
+getTeamName(match.visitorteam);
+
+const score=document.createElement("p");
+score.textContent=
+getScore(match,match.localteam_id)+" | "+
+getScore(match,match.visitorteam_id);
+
+const innings=document.createElement("div");
+innings.className="status";
+innings.textContent=
+"Match ID: "+match.id+
+" • Status: "+match.status;
+
+box.append(title,score,innings);
+
+const ballBox=document.getElementById("ballData");
+
+ballBox.innerHTML="";
+
+const balls=Array.isArray(match.balls)?match.balls:[];
+
+if(!balls.length){
+ballBox.textContent=
+"इस मैच का Ball-by-Ball डेटा अभी उपलब्ध नहीं है।";
+}else{
+balls.forEach(ball=>{
+const row=document.createElement("p");
+row.textContent=
+JSON.stringify(ball);
+ballBox.appendChild(row);
+});
+}
+
+}
+
+// LOAD API
+
+async function loadLiveScores(){
+
+const liveBox=document.getElementById("liveMatches");
+const fixtureBox=document.getElementById("fixtureMatches");
+const updated=document.getElementById("lastUpdated");
+
+try{
+
+const response=await fetch("/api/live-score",{
+cache:"no-store"
+});
+
+if(!response.ok){
+throw new Error("API Error: "+response.status);
+}
+
+const result=await response.json();
+
+if(result.success===false){
+throw new Error(result.message||"API Error");
+}
+
+// IMPORTANT WORKER RESPONSE FORMAT
+
+allMatches=Array.isArray(result.liveMatches)
+?result.liveMatches:[];
+
+const liveMatches=allMatches.filter(m=>
+m.status!=="NS" &&
+m.status!=="Not Started"
+);
+
+const upcoming=allMatches.filter(m=>
+m.status==="NS" ||
+m.status==="Not Started"
+);
+
+// LIVE
+
+liveBox.innerHTML="";
+
+if(liveMatches.length===0){
+
+liveBox.innerHTML=`
+<div class="empty">
+<h2>🏏 अभी कोई Live Match नहीं है</h2>
+<p>अगला मैच शुरू होने पर यहाँ दिखाई देगा।</p>
+</div>`;
+
+}else{
+
+liveMatches.forEach(m=>{
+liveBox.appendChild(createMatchCard(m));
+});
+
+}
+
+// FIXTURES
+
+fixtureBox.innerHTML="";
+
+if(upcoming.length===0){
+
+fixtureBox.innerHTML=`
+<div class="empty">
+अभी कोई Upcoming Fixture उपलब्ध नहीं है।
+</div>`;
+
+}else{
+
+upcoming.forEach(m=>{
+fixtureBox.appendChild(createMatchCard(m));
+});
+
+}
+
+updated.textContent=
+"Last Updated: "+
+new Date().toLocaleTimeString("hi-IN");
+
+}catch(error){
+
+liveBox.innerHTML=`
+<div class="empty">
+⚠️ Live Score लोड नहीं हुआ।
+<p>${error.message}</p>
+</div>`;
+
+updated.textContent="Update Failed";
+
+}
+
+}
+
+// MANUAL SCORE
+
+function saveManualScore(){
+
+const t1=document.getElementById("team1").value;
+const t2=document.getElementById("team2").value;
+
+const r1=document.getElementById("runs1").value;
+const w1=document.getElementById("wickets1").value;
+
+const r2=document.getElementById("runs2").value;
+const w2=document.getElementById("wickets2").value;
+
+if(!t1||!t2){
+alert("दोनों टीमों के नाम लिखें।");
+return;
+}
+
+const output=
+`${t1}: ${r1||0}/${w1||0} VS ${t2}: ${r2||0}/${w2||0}`;
+
+document.getElementById("manualResult").textContent=output;
+
+localStorage.setItem("manualScore",output);
+
+}
+
+// OVERLAY UPDATE
+
+function updateOverlay(){
+
+const box=document.getElementById("overlayScore");
+
+const match=allMatches.find(m=>
+m.status!=="NS"
+)||allMatches[0];
+
+if(!match){
+box.textContent="अभी मैच उपलब्ध नहीं है।";
+return;
+}
+
+box.innerHTML="";
+
+const title=document.createElement("h2");
+title.textContent=
+getTeamName(match.localteam)+" VS "+
+getTeamName(match.visitorteam);
+
+const score=document.createElement("div");
+score.className="score";
+score.textContent=
+getScore(match,match.localteam_id)+" | "+
+getScore(match,match.visitorteam_id);
+
+box.append(title,score);
+
+}
+
+// START
+
 loadLiveScores();
 
-// हर 60 सेकंड में ऑटो अपडेट
-setInterval(loadLiveScores, 60000);
+setInterval(loadLiveScores,60000);
 
 </script>
 
