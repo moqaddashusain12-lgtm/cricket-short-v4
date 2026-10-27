@@ -7,46 +7,53 @@ export default {
       return Response.json({
         success: true,
         app: "Cricket Short V4",
-        status: "Online",
-        apiConfigured: !!env.CRICKET_API_KEY
+        sportmonksConfigured: !!env.SPORTMONKS_API_TOKEN
       });
     }
 
-    // Real Cricket Live Score
+    // Sportmonks Live Score
     if (url.pathname === "/api/live-score") {
-      if (!env.CRICKET_API_KEY) {
+      if (!env.SPORTMONKS_API_TOKEN) {
         return Response.json({
           success: false,
-          message: "API Key Missing"
+          message: "SPORTMONKS_API_TOKEN Missing"
         }, { status: 500 });
       }
 
       try {
         const apiUrl = new URL(
-          "https://api.cricapi.com/v1/currentMatches"
+          "https://cricket.sportmonks.com/api/v2.0/livescores"
         );
 
-        apiUrl.searchParams.set("apikey", env.CRICKET_API_KEY);
-        apiUrl.searchParams.set("offset", "0");
+        apiUrl.searchParams.set(
+          "api_token",
+          env.SPORTMONKS_API_TOKEN
+        );
+
+        apiUrl.searchParams.set(
+          "include",
+          "runs,batting,bowling,localteam,visitorteam,venue"
+        );
 
         const response = await fetch(apiUrl);
         const data = await response.json();
 
         return Response.json(data, {
+          status: response.status,
           headers: {
-            "Cache-Control": "public, max-age=60"
+            "Cache-Control": "no-store"
           }
         });
 
       } catch (error) {
         return Response.json({
           success: false,
-          message: "Cricket API Error"
-        }, { status: 500 });
+          message: "Sportmonks API connection failed"
+        }, { status: 502 });
       }
     }
 
-    // Website Files
+    // Static Website
     if (env.ASSETS) {
       return env.ASSETS.fetch(request);
     }
