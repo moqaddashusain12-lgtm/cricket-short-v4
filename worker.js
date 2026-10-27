@@ -1,6 +1,7 @@
-// =================================================
-// CRICKET SHORT V4 - SPORTMONKS LIVE API
-// =================================================
+// ==========================================
+// CRICKET SHORT V4 - FINAL WORKER
+// SPORTMONKS LIVE + MATCH DETAILS
+// ==========================================
 
 export default {
   async fetch(request, env) {
@@ -8,21 +9,9 @@ export default {
     const url = new URL(request.url);
 
     const headers = {
-      "Content-Type": "application/json",
       "Cache-Control": "no-store",
       "Access-Control-Allow-Origin": "*"
     };
-
-    // CORS
-    if (request.method === "OPTIONS") {
-      return new Response(null, {
-        headers: {
-          ...headers,
-          "Access-Control-Allow-Methods": "GET, OPTIONS",
-          "Access-Control-Allow-Headers": "Content-Type"
-        }
-      });
-    }
 
     // HEALTH CHECK
     if (url.pathname === "/api/health") {
@@ -30,24 +19,21 @@ export default {
       return Response.json({
         success: true,
         app: "Cricket Short V4",
-        api: "Sportmonks Cricket API",
-        connected: !!env.SPORTMONKS_API_TOKEN,
-        status: "ONLINE"
+        connected: !!env.SPORTMONKS_API_TOKEN
       }, { headers });
+
+    }
+
+    // CHECK TOKEN
+    if (!env.SPORTMONKS_API_TOKEN) {
+      return Response.json({
+        success: false,
+        message: "SPORTMONKS_API_TOKEN Missing"
+      }, { status: 500, headers });
     }
 
     // LIVE SCORE
     if (url.pathname === "/api/live-score") {
-
-      if (!env.SPORTMONKS_API_TOKEN) {
-        return Response.json({
-          success: false,
-          message: "API TOKEN MISSING"
-        }, {
-          status: 500,
-          headers
-        });
-      }
 
       try {
 
@@ -66,27 +52,17 @@ export default {
         );
 
         const response = await fetch(apiUrl, {
-          method: "GET",
-          headers: {
-            "Accept": "application/json"
-          },
           signal: AbortSignal.timeout(15000)
         });
 
         const result = await response.json();
 
-        // API ERROR
         if (!response.ok) {
-
           return Response.json({
             success: false,
-            message: "SPORTMONKS API ERROR",
-            httpStatus: response.status,
+            message: "Sportmonks Live API Error",
             error: result
-          }, {
-            status: 502,
-            headers
-          });
+          }, { status: 502, headers });
         }
 
         const matches = Array.isArray(result.data)
@@ -94,39 +70,82 @@ export default {
           : [];
 
         return Response.json({
-
           success: true,
-
-          app: "Cricket Short V4",
-
-          provider: "Sportmonks",
-
           totalMatches: matches.length,
-
-          liveMatches: matches,
-
-          message: matches.length > 0
-            ? "LIVE MATCH DATA RECEIVED"
-            : "NO LIVE MATCH AVAILABLE IN YOUR API DATA"
-
+          liveMatches: matches
         }, { headers });
 
       } catch (error) {
 
         return Response.json({
-
           success: false,
-
-          message: "SPORTMONKS CONNECTION FAILED",
-
-          error: error.message
-
-        }, {
-          status: 502,
-          headers
-        });
+          message: error.message
+        }, { status: 502, headers });
 
       }
+
+    }
+
+    // FULL MATCH DETAILS
+    if (url.pathname === "/api/match-details") {
+
+      const matchId = url.searchParams.get("id");
+
+      if (!matchId || !/^\d+$/.test(matchId)) {
+
+        return Response.json({
+          success: false,
+          message: "Valid Match ID Required"
+        }, { status: 400, headers });
+
+      }
+
+      try {
+
+        const apiUrl = new URL(
+          `https://cricket.sportmonks.com/api/v2.0/fixtures/${matchId}`
+        );
+
+        apiUrl.searchParams.set(
+          "api_token",
+          env.SPORTMONKS_API_TOKEN
+        );
+
+        apiUrl.searchParams.set(
+          "include",
+          "localteam,visitorteam,venue,runs,scoreboards,batting,bowling,balls"
+        );
+
+        const response = await fetch(apiUrl, {
+          signal: AbortSignal.timeout(15000)
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+
+          return Response.json({
+            success: false,
+            message: "Match Details API Error",
+            error: result
+          }, { status: 502, headers });
+
+        }
+
+        return Response.json({
+          success: true,
+          match: result.data || null
+        }, { headers });
+
+      } catch (error) {
+
+        return Response.json({
+          success: false,
+          message: error.message
+        }, { status: 502, headers });
+
+      }
+
     }
 
     // STATIC WEBSITE
@@ -134,9 +153,7 @@ export default {
       return env.ASSETS.fetch(request);
     }
 
-    return new Response(
-      "Cricket Short V4 Online 🏏",
-      { headers }
-    );
+    return new Response("Cricket Short V4 Online 🏏");
+
   }
 };
